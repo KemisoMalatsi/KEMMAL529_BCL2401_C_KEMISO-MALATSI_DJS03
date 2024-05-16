@@ -4,8 +4,7 @@ let page = 1;
 let matches = books;
 
 // Fuction to create preview element
-const createPreviewElement =({ id, image, title, author}){
-    
+const createPreviewElement =({ id, image, title, author}) => {
     const element = document.createElement('button')
     element.classList = 'preview';
     element.setAttribute('data-preview', id);
@@ -25,6 +24,12 @@ const createPreviewElement =({ id, image, title, author}){
     return element;
 };
 
+// Function to render preview
+const renderPreviews = (previews, container) => {
+    const fragment = document.createDocumentFragment();
+    previews.forEach(preview => fragment.appendChild(preview));
+    container.appendChild(fragment);
+};
 
 document.querySelector('[data-list-items]').appendChild(starting)
 
