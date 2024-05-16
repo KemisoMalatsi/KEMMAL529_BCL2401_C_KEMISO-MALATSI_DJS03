@@ -32,13 +32,23 @@ const renderPreviews = (previews, container) => {
 };
 
 // Fuction to render options for genres or authors
-const renderOptions =(data, container) => {
+const renderOptions = (data, container) => {
     const fragment = document.createDocumentFragment();
     const firstElement = document.createElement('option');
     firstElement.value = 'any';
     firstElement.innerText = data === genres ? 'All Genres' : 'All Authors';
     fragment.appendChild(firstElement);
-}
+
+    for (const [id, name] of Object.entries(genres)) {
+        const element = document.createElement('option')
+        element.value = id
+        element.innerText = name
+        genreHtml.appendChild(element)
+    }
+    container.appendChild(fragment);    
+};
+
+// Function to set theme based on system preference
 
 document.querySelector('[data-list-items]').appendChild(starting)
 
@@ -48,12 +58,6 @@ firstGenreElement.value = 'any'
 firstGenreElement.innerText = 'All Genres'
 genreHtml.appendChild(firstGenreElement)
 
-for (const [id, name] of Object.entries(genres)) {
-    const element = document.createElement('option')
-    element.value = id
-    element.innerText = name
-    genreHtml.appendChild(element)
-}
 
 document.querySelector('[data-search-genres]').appendChild(genreHtml)
 
