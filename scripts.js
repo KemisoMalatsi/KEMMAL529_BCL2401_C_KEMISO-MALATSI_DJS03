@@ -31,6 +31,15 @@ const renderPreviews = (previews, container) => {
     container.appendChild(fragment);
 };
 
+// Fuction to render options for genres or authors
+const renderOptions =(data, container) => {
+    const fragment = document.createDocumentFragment();
+    const firstElement = document.createElement('option');
+    firstElement.value = 'any';
+    firstElement.innerText = data === genres ? 'All Genres' : 'All Authors';
+    fragment.appendChild(firstElement);
+}
+
 document.querySelector('[data-list-items]').appendChild(starting)
 
 const genreHtml = document.createDocumentFragment()
