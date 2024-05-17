@@ -1,4 +1,5 @@
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js'
+import './book-preview.js'; // Import the custom element defination
 
 let page = 1;
 let matches = books;
