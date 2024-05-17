@@ -1,5 +1,5 @@
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js'
-import './book-preview.js'; // Import the custom element defination
+import '/book-preview.js';
 
 let page = 1;
 let matches = books;
@@ -32,6 +32,7 @@ const renderPreviews = (previews, container) => {
     container.appendChild(fragment);
 };
 
+
 // Function to render options for genres or authors
 const renderOptions = (data, container) => {
     const fragment = document.createDocumentFragment();
@@ -59,7 +60,9 @@ const setTheme = () => {
     document.documentElement.style.setProperty('--color-light', prefersDarkMode ? '10, 10, 20' : '255, 255, 255');
 };
 
+
 // Function to update list button text and state
+
 const updateListButton = () => {
     const remaining = Math.max(matches.length - (page * BOOKS_PER_PAGE), 0);
     const button = document.querySelector('[data-list-button]');
@@ -104,6 +107,7 @@ const handleFormSubmit = (event, filterFunction) => {
 renderPreviews(matches.slice(0, BOOKS_PER_PAGE).map(book => createPreviewElement(book)), document.querySelector('[data-list-items]'));
 
 // Render options for genres and authors
+import './genre-author-option.js';
 renderOptions(genres, document.querySelector('[data-search-genres]'));
 renderOptions(authors, document.querySelector('[data-search-authors]'));
 
