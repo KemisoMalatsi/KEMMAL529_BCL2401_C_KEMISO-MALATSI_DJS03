@@ -70,13 +70,42 @@ const updateListButton = () => {
         `;
 };
 
-document.querySelector('[data-list-items]').appendChild(starting)
+// Fuction to handle form submissions
+const handleFormSubmit = (event, filterFunction) => {
+    event.preventDefault();
+    const formData = new formData(event.target);
+    const filters = object.fromEntries(formData);
+    const result = filterFunction(filters);
 
-const genreHtml = document.createDocumentFragment()
-const firstGenreElement = document.createElement('option')
-firstGenreElement.value = 'any'
-firstGenreElement.innerText = 'All Genres'
-genreHtml.appendChild(firstGenreElement)
+    page = 1;
+    matches = result;
+
+    if (result.length < 1 ){
+        document.querySelector('[data-list-message]').classList.add('list__message_show');
+    } else {
+        document.querySelector('[data-list-message]').classList.remove('list__message_show');
+    }
+
+    document.querySelector('[data-list-items]').innerHTML = '';
+    const newItems = document.createDocumentFragment();
+
+    for(const { author, id, image, title } of result.slice(0, BOOKS_PER_PAGE)) {
+        const element = createPreviewElement({ author, id, image, title });
+        newItems.appendChild(element);
+    }
+
+    document.querySelector('[data-list-items]').appendChild(newItems);
+
+    document.querySelector('[data-list-button]').disabled = (matches.length - (page * BOOKS_PER_PAGE)) < 1;
+
+    document.querySelector('[data-list-button]').innerHTML = `
+        <span>Show more</span>
+        <span class="list__remaining"> (${(matches.length - (page * BOOKS_PER_PAGE)) > 0 ? (matches.length - (page * BOOKS_PER_PAGE)) : 0})</span>
+    `;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelector('[data-search-overlay]').open = false;
+};
 
 
 document.querySelector('[data-search-genres]').appendChild(genreHtml)
@@ -122,20 +151,9 @@ document.querySelector('[data-list-close]').addEventListener('click', () => {
     document.querySelector('[data-list-active]').open = false
 })
 
-document.querySelector('[data-settings-form]').addEventListener('submit', (event) => {
-    event.preventDefault()
-    const formData = new FormData(event.target)
-    const { theme } = Object.fromEntries(formData)
 
-    if (theme === 'night') {
-        document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
-        document.documentElement.style.setProperty('--color-light', '10, 10, 20');
-    } else {
-        document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
-        document.documentElement.style.setProperty('--color-light', '255, 255, 255');
-    }
     
-    document.querySelector('[data-settings-overlay]').open = false
+   
 })
 
 document.querySelector('[data-search-form]').addEventListener('submit', (event) => {
