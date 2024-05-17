@@ -58,6 +58,18 @@ const setTheme = () => {
     document.documentElement.style.setProperty('color-light', prefersDarkMode ? '10, 10, 20' : '255, 255, 255');
 };
 
+// Function to update list button text and state
+const updateListButton = () => {
+    const remaining = Math.max(matches.length - (page * BOOKS_PER_PAGE), 0);
+    const button = document.querySelector('[data-list-button]');
+    button.innerText = 'Show more (${books.length - BOOKS_PER_PAGE})';
+    button.disabled = remaining > 0;
+    button.innerHTML = `
+        <span>Show more</span>
+        <span class="List__remaining"> (${remaining > 0 ? remaining : 0})</span>
+        `;
+};
+
 document.querySelector('[data-list-items]').appendChild(starting)
 
 const genreHtml = document.createDocumentFragment()
@@ -86,12 +98,7 @@ document.querySelector('[data-search-authors]').appendChild(authorsHtml)
 
 
 
-document.querySelector('[data-list-button]').innerText = `Show more (${books.length - BOOKS_PER_PAGE})`
-document.querySelector('[data-list-button]').disabled = (matches.length - (page * BOOKS_PER_PAGE)) > 0
 
-document.querySelector('[data-list-button]').innerHTML = `
-    <span>Show more</span>
-    <span class="list__remaining"> (${(matches.length - (page * BOOKS_PER_PAGE)) > 0 ? (matches.length - (page * BOOKS_PER_PAGE)) : 0})</span>
 `
 
 document.querySelector('[data-search-cancel]').addEventListener('click', () => {
